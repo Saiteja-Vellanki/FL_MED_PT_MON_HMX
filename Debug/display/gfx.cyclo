@@ -1,0 +1,7 @@
+../display/gfx.c:32:6:set_buffer_size	1
+../display/gfx.c:38:6:fill_buffer	2
+../display/gfx.c:48:6:draw_pixel	4
+../display/gfx.c:63:6:select_font	1
+../display/gfx.c:68:6:draw_char	6
+../display/gfx.c:111:6:draw_text	2
+../display/gfx.c:121:6:send_buffer_to_OLED	1
