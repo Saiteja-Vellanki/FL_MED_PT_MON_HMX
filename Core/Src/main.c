@@ -20,11 +20,10 @@
 #include "main.h"
 #include "spi.h"
 #include "gpio.h"
-#include "display.h"
-#include "gfx.h"
-#include "FreeMono12pt7b.h"
+#include "app.h"
 #include "fw_release.h"
-
+#include "temperature.h"
+#include "Usart.h"
 
 
 /* Private includes ----------------------------------------------------------*/
@@ -54,6 +53,9 @@
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+void MX_USART1_UART_Init(void);
+
+UART_HandleTypeDef huart1;
 
 
 /* USER CODE END PFP */
@@ -92,11 +94,16 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_SPI1_Init();
-  /* USER CODE BEGIN 2 */
-  uint8_t tx_buf[256 * 64 / 2];
+  Display_app_init();
+  MX_USART1_UART_Init();
 
+  /* USER CODE BEGIN 2 */
+  Display_refresh();
+  Display_company_name();
+  Display_refresh();
+  Display_contct_num();
+  get_ROMid();
   	//Call initialization seqence for SSD1322
-  	Display_init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -106,16 +113,10 @@ int main(void)
 
   while (1)
   {
-	  set_buffer_size(256, 64);
-	  fill_buffer(tx_buf, 0);
-      send_buffer_to_OLED(tx_buf, 0, 0);
-	  HAL_Delay(2000);
-	  fill_buffer(tx_buf, 0);
-      select_font(&FreeMono12pt7b);
-      draw_text(tx_buf, "HEALOMEX BIO", 10, 20, 15);
-      draw_text(tx_buf, "SCIENCES PVT LTD", 10, 45, 15);
-      send_buffer_to_OLED(tx_buf, 0, 0);
-	  HAL_Delay(2000);
+	      get_Temperature();
+	 	  HAL_Delay(1000);
+	 	  Display_refresh();
+          Display_curr_temp();
   }
   /* USER CODE END 3 */
 }
