@@ -20,10 +20,12 @@
 #include "main.h"
 #include "spi.h"
 #include "gpio.h"
-#include "display.h"
-#include "gfx.h"
-#include "FreeMono12pt7b.h"
+#include "app.h"
 #include "fw_release.h"
+#include "temperature.h"
+#include "Usart.h"
+#include "ioexpansion.h"
+#include "i2c.h"
 
 
 
@@ -54,6 +56,10 @@
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+void MX_USART1_UART_Init(void);
+
+UART_HandleTypeDef huart1;
+MCP23017_HandleTypeDef hmcp;
 
 
 /* USER CODE END PFP */
@@ -92,11 +98,25 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_SPI1_Init();
-  /* USER CODE BEGIN 2 */
-  uint8_t tx_buf[256 * 64 / 2];
+  Display_app_init();
+  MX_USART1_UART_Init();
+  MX_I2C1_Init();
+    /* USER CODE BEGIN 2 */
 
+
+  mcp23017_init(&hmcp, &hi2c1, MCP23017_ADD_27);
+  mcp23017_portMode(&hmcp, MCP23017Port_A, MCP23017_PIN_MODE_OUTPUT,MCP23017_PIN_POLARITY_NORMAL);
+  mcp23017_pinMode(&hmcp,MCP23017_GPA0_Pin,MCP23017_PIN_MODE_OUTPUT,MCP23017_PIN_POLARITY_NORMAL);
+  /* USER CODE BEGIN 2 */
+//  Display_refresh();
+//  company_logo();
+  Display_refresh();
+  Display_company_name();
+  Display_refresh();
+  Display_contct_num();
+  Display_refresh();
+  get_ROMid();
   	//Call initialization seqence for SSD1322
-  	Display_init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -106,16 +126,15 @@ int main(void)
 
   while (1)
   {
-	  set_buffer_size(256, 64);
-	  fill_buffer(tx_buf, 0);
-      send_buffer_to_OLED(tx_buf, 0, 0);
-	  HAL_Delay(2000);
-	  fill_buffer(tx_buf, 0);
-      select_font(&FreeMono12pt7b);
-      draw_text(tx_buf, "HEALOMEX BIO", 10, 20, 15);
-      draw_text(tx_buf, "SCIENCES PVT LTD", 10, 45, 15);
-      send_buffer_to_OLED(tx_buf, 0, 0);
-	  HAL_Delay(2000);
+	      mcp23017_digitalWrite(&hmcp,MCP23017_GPA0_Pin,GPIO_PIN_SET);
+	      HAL_Delay(5000);
+	      mcp23017_digitalWrite(&hmcp,MCP23017_GPA0_Pin,GPIO_PIN_RESET);
+	      HAL_Delay(5000);
+	      get_Temperature();
+	 	  HAL_Delay(1000);
+	 	  Display_refresh();
+          Display_curr_temp();
+
   }
   /* USER CODE END 3 */
 }

@@ -1,0 +1,7 @@
+../App/app.c:42:6:Display_app_init	1
+../App/app.c:47:6:Set_Display_buffsize	1
+../App/app.c:52:6:Display_refresh	1
+../App/app.c:61:6:company_logo	1
+../App/app.c:68:6:Display_company_name	1
+../App/app.c:78:6:Display_contct_num	1
+../App/app.c:85:6:Display_curr_temp	1
