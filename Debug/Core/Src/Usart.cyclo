@@ -1,0 +1,2 @@
+../Core/Src/Usart.c:22:6:MX_USART1_UART_Init	2
+../Core/Src/Usart.c:58:6:USART1_IRQHandler	1

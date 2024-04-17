@@ -1,0 +1,13 @@
+../App/app.c:49:6:Display_app_init	8	static
+../App/app.c:54:6:Set_Display_buffsize	8	static
+../App/app.c:59:6:Display_refresh	8	static
+../App/app.c:68:6:company_logo	16	static
+../App/app.c:75:6:gif_logo	16	static
+../App/app.c:82:6:gif_logo1	16	static
+../App/app.c:89:6:Display_company_name	16	static
+../App/app.c:99:6:Display_contct_num	16	static
+../App/app.c:107:6:Display_Managmnt_sys	16	static
+../App/app.c:119:6:Display_curr_temp	24	static
+../App/app.c:129:6:Gpio_Ex_init	8	static
+../App/app.c:134:6:Led_State	8	static
+../App/app.c:143:6:Tempset_35	8	static
