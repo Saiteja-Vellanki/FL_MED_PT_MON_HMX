@@ -1,0 +1,16 @@
+../App/app.c:59:6:Display_app_init	1
+../App/app.c:64:6:Set_Display_buffsize	1
+../App/app.c:69:6:Display_refresh	1
+../App/app.c:78:6:company_logo	1
+../App/app.c:85:6:gif_logo	1
+../App/app.c:92:6:gif_logo1	1
+../App/app.c:99:6:Display_company_name	1
+../App/app.c:109:6:Display_contct_num	1
+../App/app.c:117:6:Display_Managmnt_sys	1
+../App/app.c:130:6:Display_curr_temp	1
+../App/app.c:147:6:Gpio_Ex_init	1
+../App/app.c:152:6:Led_State	1
+../App/app.c:161:6:Tempset_35	1
+../App/app.c:166:6:RTC_init	1
+../App/app.c:172:6:Display_RTC_clock	1
+../App/app.c:187:6:display_clock_gif	1

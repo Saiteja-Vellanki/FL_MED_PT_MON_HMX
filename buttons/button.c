@@ -20,3 +20,40 @@
 
 
 #include "button.h"
+#include<stdint.h>
+#include "gpio.h"
+
+
+
+void Set_35T_Button(void)
+{
+	static uint8_t set_35;
+	set_35=HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_1);
+	if(set_35 == 0)
+	{
+	}
+
+
+}
+
+void Set_40T_Button()
+{
+	static uint8_t set_40;
+	set_40=HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_12);
+	if(set_40 == 0)
+	{
+			//
+	}
+}
+
+void Set_43T_Button()
+{
+	static uint8_t set_43;
+	set_43=HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_13);
+	if(set_43 == 0)
+	{
+				//
+	}
+}
+
+

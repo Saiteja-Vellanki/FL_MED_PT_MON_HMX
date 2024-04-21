@@ -4,4 +4,6 @@
 ../display/gfx.c:63:6:select_font	1
 ../display/gfx.c:68:6:draw_char	6
 ../display/gfx.c:111:6:draw_text	2
-../display/gfx.c:121:6:send_buffer_to_OLED	1
+../display/gfx.c:146:6:draw_bitmap_8bpp	3
+../display/gfx.c:160:6:draw_bitmap_4bpp	4
+../display/gfx.c:187:6:send_buffer_to_OLED	1
