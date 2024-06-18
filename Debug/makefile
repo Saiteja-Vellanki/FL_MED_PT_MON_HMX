@@ -15,10 +15,12 @@ RM := rm -rf
 -include ioexpansion/subdir.mk
 -include display/subdir.mk
 -include buttons/subdir.mk
+-include RTC/subdir.mk
 -include Fw_release/subdir.mk
 -include Drivers/STM32F4xx_HAL_Driver/Src/subdir.mk
 -include Core/Startup/subdir.mk
 -include Core/Src/subdir.mk
+-include App/subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
@@ -59,6 +61,12 @@ default.size.stdout \
 OBJDUMP_LIST += \
 FL_MED_PT_MON_HMX.list \
 
+OBJCOPY_HEX += \
+FL_MED_PT_MON_HMX.hex \
+
+OBJCOPY_BIN += \
+FL_MED_PT_MON_HMX.bin \
+
 
 # All Target
 all: main-build
@@ -68,7 +76,7 @@ main-build: FL_MED_PT_MON_HMX.elf secondary-outputs
 
 # Tool invocations
 FL_MED_PT_MON_HMX.elf FL_MED_PT_MON_HMX.map: $(OBJS) $(USER_OBJS) C:\Users\saive\STM32CubeIDE\workspace_1.11.0\FL_MED_PT_MON_HMX\STM32F410RBTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "FL_MED_PT_MON_HMX.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\saive\STM32CubeIDE\workspace_1.11.0\FL_MED_PT_MON_HMX\STM32F410RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="FL_MED_PT_MON_HMX.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+	arm-none-eabi-gcc -o "FL_MED_PT_MON_HMX.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\saive\STM32CubeIDE\workspace_1.11.0\FL_MED_PT_MON_HMX\STM32F410RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="FL_MED_PT_MON_HMX.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -82,12 +90,22 @@ FL_MED_PT_MON_HMX.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEP
 	@echo 'Finished building: $@'
 	@echo ' '
 
+FL_MED_PT_MON_HMX.hex: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objcopy  -O ihex $(EXECUTABLES) "FL_MED_PT_MON_HMX.hex"
+	@echo 'Finished building: $@'
+	@echo ' '
+
+FL_MED_PT_MON_HMX.bin: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "FL_MED_PT_MON_HMX.bin"
+	@echo 'Finished building: $@'
+	@echo ' '
+
 # Other Targets
 clean:
-	-$(RM) FL_MED_PT_MON_HMX.elf FL_MED_PT_MON_HMX.list FL_MED_PT_MON_HMX.map default.size.stdout
+	-$(RM) FL_MED_PT_MON_HMX.bin FL_MED_PT_MON_HMX.elf FL_MED_PT_MON_HMX.hex FL_MED_PT_MON_HMX.list FL_MED_PT_MON_HMX.map default.size.stdout
 	-@echo ' '
 
-secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)
+secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_HEX) $(OBJCOPY_BIN)
 
 fail-specified-linker-script-missing:
 	@echo 'Error: Cannot find the specified linker script. Check the linker settings in the build configuration.'

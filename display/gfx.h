@@ -4,9 +4,9 @@
  * Programming Lang : Embedded C
  * Controller       : STM32F410RB
  * client           : TBD
- * code access      : https://github.com/Saiteja-Vellanki/FL_MED_PT_MON_STEM-001
- * Binary Path      : TBD
- * ELF Path         : https://github.com/Saiteja-Vellanki/FL_MED_PT_MON_STEM-001/tree/master/Debug/FL_MED_PT_MON_STEM-001.elf
+ * code access      : https://github.com/Saiteja-Vellanki/FL_MED_PT_MON_HMX
+ * Binary Path      : https://github.com/Saiteja-Vellanki/FL_MED_PT_MON_HMX/blob/master/Debug/FL_MED_PT_MON_HMX.bin
+ * ELF Path         : https://github.com/Saiteja-Vellanki/FL_MED_PT_MON_HMX/blob/master/Debug/FL_MED_PT_MON_HMX.elf
  *
  *
  * Created on       : Mar 14, 2024
@@ -61,6 +61,7 @@ void draw_rect_filled(uint8_t *frame_buffer, uint16_t x0, uint16_t y0, uint16_t 
 void draw_circle(uint8_t *frame_buffer, uint16_t x0, uint16_t y0, uint16_t r, uint8_t brightness);
 void draw_bitmap_8bpp(uint8_t *frame_buffer, const uint8_t *bitmap, uint16_t x0, uint16_t y0, uint16_t x_size, uint16_t y_size);
 void draw_bitmap_4bpp(uint8_t *frame_buffer, const uint8_t *bitmap, uint16_t x0, uint16_t y0, uint16_t x_size, uint16_t y_size);
+void fastDrawBitmap(int16_t x, int16_t y, const uint8_t *bitmap, int16_t w, int16_t h, uint8_t color);
 
 void select_font(const GFXfont *new_gfx_font);
 void draw_char(uint8_t *frame_buffer, uint8_t text, uint16_t x, uint16_t y, uint8_t brightness);

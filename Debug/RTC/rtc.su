@@ -1,0 +1,2 @@
+../RTC/rtc.c:26:6:RTC_interface	8	static
+../RTC/rtc.c:53:8:MX_RTC_Init	32	static

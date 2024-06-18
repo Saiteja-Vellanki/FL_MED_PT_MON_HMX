@@ -26,7 +26,9 @@
 
 
 
-
+void Set_35T_Button();
+void Set_40T_Button();
+void Set_43T_Button();
 
 
 
