@@ -20,10 +20,11 @@
 #include "main.h"
 #include "spi.h"
 #include "gpio.h"
-#include "display.h"
-#include "gfx.h"
-#include "FreeMono12pt7b.h"
+#include "app.h"
 #include "fw_release.h"
+#include "temperature.h"
+#include "Usart.h"
+#include "i2c.h"
 
 
 
@@ -54,6 +55,7 @@
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+void MX_USART1_UART_Init(void);
 
 
 /* USER CODE END PFP */
@@ -92,11 +94,29 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_SPI1_Init();
-  /* USER CODE BEGIN 2 */
-  uint8_t tx_buf[256 * 64 / 2];
+  Display_app_init();
+  MX_USART1_UART_Init();
+  MX_I2C1_Init();
+  Gpio_Ex_init();
+  //button_false_init();
 
+    /* USER CODE BEGIN 2 */
+
+
+
+  /* USER CODE BEGIN 2 */
+//  Display_refresh();
+//  company_logo();
+  Display_refresh();
+  Display_company_name();
+  Display_refresh();
+  Display_Managmnt_sys();
+  Display_refresh();
+  Display_contct_num();
+  Display_refresh();
+  get_ROMid();
+  RTC_init();
   	//Call initialization seqence for SSD1322
-  	Display_init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -106,19 +126,26 @@ int main(void)
 
   while (1)
   {
-	  set_buffer_size(256, 64);
-	  fill_buffer(tx_buf, 0);
-      send_buffer_to_OLED(tx_buf, 0, 0);
-	  HAL_Delay(2000);
-	  fill_buffer(tx_buf, 0);
-      select_font(&FreeMono12pt7b);
-      draw_text(tx_buf, "HEALOMEX BIO", 10, 20, 15);
-      draw_text(tx_buf, "SCIENCES PVT LTD", 10, 45, 15);
-      send_buffer_to_OLED(tx_buf, 0, 0);
-	  HAL_Delay(2000);
+//	  Tempset_35();
+
+	get_Temperature();
+//    HAL_Delay(10);
+//    Display_refresh();
+    Display_curr_temp();
+//    Display_refresh();
+//    Display_RTC_clock();
+//    Display_refresh();
+    //display_clock_gif();
+
+    //Led_State();
+
+
+
+
   }
   /* USER CODE END 3 */
 }
+
 
 /**
   * @brief System Clock Configuration
@@ -137,14 +164,14 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
-  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_LSI|RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+  RCC_OscInitStruct.LSIState = RCC_LSI_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
-  RCC_OscInitStruct.PLL.PLLM = 16;
-  RCC_OscInitStruct.PLL.PLLN = 336;
-  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV4;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+  RCC_OscInitStruct.PLL.PLLM = 4;
+  RCC_OscInitStruct.PLL.PLLN = 50;
+  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
   RCC_OscInitStruct.PLL.PLLQ = 4;
   RCC_OscInitStruct.PLL.PLLR = 2;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
@@ -158,20 +185,22 @@ void SystemClock_Config(void)
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_1) != HAL_OK)
   {
     Error_Handler();
   }
 }
 
 
+/**
+  * @brief GPIO Initialization Function
+  * @param None
+  * @retval None
+  */
 
-/* USER CODE BEGIN 4 */
-
-/* USER CODE END 4 */
 
 /**
   * @brief  This function is executed in case of error occurrence.

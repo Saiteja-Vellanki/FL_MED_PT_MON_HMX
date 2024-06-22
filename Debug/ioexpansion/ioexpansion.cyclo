@@ -1,0 +1,14 @@
+../ioexpansion/ioexpansion.c:63:16:mcp23017_regForPin	2
+../ioexpansion/ioexpansion.c:72:16:mcp23017_bitForPin	1
+../ioexpansion/ioexpansion.c:82:19:mcp23017_readRegister	1
+../ioexpansion/ioexpansion.c:97:26:mcp23017_writeRegister	1
+../ioexpansion/ioexpansion.c:114:19:mcp23017_updateRegisterBit	2
+../ioexpansion/ioexpansion.c:132:19:mcp23017_init	4
+../ioexpansion/ioexpansion.c:169:19:mcp23017_portMode	8
+../ioexpansion/ioexpansion.c:194:19:mcp23017_pinMode	6
+../ioexpansion/ioexpansion.c:220:19:mcp23017_digitalRead	1
+../ioexpansion/ioexpansion.c:235:19:mcp23017_digitalWrite	3
+../ioexpansion/ioexpansion.c:260:19:mcp23017_setInterruptMode	3
+../ioexpansion/ioexpansion.c:285:19:mcp23017_setupInterruptPin	4
+../ioexpansion/ioexpansion.c:317:19:mcp23017_getLastInterruptPin	5
+../ioexpansion/ioexpansion.c:342:19:mcp23017_getLastInterruptPinValue	3

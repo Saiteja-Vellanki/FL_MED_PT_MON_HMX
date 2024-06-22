@@ -4,9 +4,9 @@
  * Programming Lang : Embedded C
  * Controller       : STM32F410RB
  * client           : TBD
- * code access      : https://github.com/Saiteja-Vellanki/FL_MED_PT_MON_STEM-001
- * Binary Path      : TBD
- * ELF Path         : https://github.com/Saiteja-Vellanki/FL_MED_PT_MON_STEM-001/tree/master/Debug/FL_MED_PT_MON_STEM-001.elf
+ * code access      : https://github.com/Saiteja-Vellanki/FL_MED_PT_MON_HMX
+ * Binary Path      : https://github.com/Saiteja-Vellanki/FL_MED_PT_MON_HMX/blob/master/Debug/FL_MED_PT_MON_HMX.bin
+ * ELF Path         : https://github.com/Saiteja-Vellanki/FL_MED_PT_MON_HMX/blob/master/Debug/FL_MED_PT_MON_HMX.elf
  *
  *
  * Created on       : Mar 14, 2024
@@ -57,6 +57,17 @@ void draw_pixel(uint8_t *frame_buffer, uint16_t x, uint16_t y, uint8_t brightnes
 	else
 	{
 		frame_buffer[((y * _buffer_width) + x) / 2] = (frame_buffer[((y * _buffer_width) + x) / 2] & 0x0F) | (brightness << 4);
+	}
+}
+
+void draw_rect_filled(uint8_t *frame_buffer, uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint8_t brightness)
+{
+	for (uint16_t i = x0; i <= x1; i++)
+	{
+		for (uint16_t j = y0; j <= y1; j++)
+		{
+			draw_pixel(frame_buffer, i, j, brightness);
+		}
 	}
 }
 
@@ -116,6 +127,72 @@ void draw_text(uint8_t *frame_buffer, const char* text, uint16_t x, uint16_t y, 
         x = x + gfx_font->glyph[*text-32].xAdvance;
         text++;
     }
+}
+
+//void DrawBitmap(int16_t x, int16_t y, const unsigned char* bitmap, int16_t w, int16_t h, uint16_t brightness)
+//{
+//
+//    int16_t byteWidth = (w + 7) / 8; // Bitmap scanline pad = whole byte
+//    uint8_t byte = 0;
+//
+//    for(int16_t j=0; j<h; j++, y++)
+//    {
+//        for(int16_t i=0; i<w; i++)
+//        {
+//            if(i & 7)
+//            {
+//               byte <<= 1;
+//            }
+//            else
+//            {
+//               byte = (*(const unsigned char *)(&bitmap[j * byteWidth + i / 8]));
+//            }
+//            if(byte & 0x80) draw_pixel(bitmap,x+i, y, brightness);
+//        }
+//    }
+//}
+//
+
+
+void draw_bitmap_8bpp(uint8_t *frame_buffer, const uint8_t *bitmap, uint16_t x0, uint16_t y0, uint16_t x_size, uint16_t y_size)
+{
+	uint16_t bitmap_pos = 0;
+
+	for (uint16_t i = y0; i < y0 + y_size; i++)
+	{
+		for (uint16_t j = x0; j < x0 + x_size; j++)
+		{
+			draw_pixel(frame_buffer, j, i, bitmap[bitmap_pos] >> 4);
+			bitmap_pos++;
+		}
+	}
+}
+
+void draw_bitmap_4bpp(uint8_t *frame_buffer, const uint8_t *bitmap, uint16_t x0, uint16_t y0, uint16_t x_size, uint16_t y_size)
+{
+	uint16_t bitmap_pos = 0;       //byte index in bitmap array
+	uint16_t processed_pixels = 0;
+	uint8_t pixel_parity = 0;      //if pixel is even = 0; odd = 1
+
+	for (uint16_t i = y0; i < y0 + y_size; i++)
+	{
+		for (uint16_t j = x0; j < x0 + x_size; j++)
+		{
+			pixel_parity = processed_pixels % 2;
+
+			if(pixel_parity == 0)
+			{
+				draw_pixel(frame_buffer, j, i, bitmap[bitmap_pos] >> 4);
+				processed_pixels++;
+			}
+			else
+			{
+				draw_pixel(frame_buffer, j, i, bitmap[bitmap_pos]);
+				processed_pixels++;
+				bitmap_pos++;
+			}
+		}
+	}
 }
 
 void send_buffer_to_OLED(uint8_t *frame_buffer, uint16_t start_x, uint16_t start_y)
