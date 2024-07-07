@@ -1,0 +1,9 @@
+../pwm/Pwm.c:14:6:MX_TIM1_Init	96	static
+../pwm/Pwm.c:86:6:Motor_25_duty	8	static
+../pwm/Pwm.c:95:6:Motor_35_duty	8	static
+../pwm/Pwm.c:104:6:Motor_45_duty	8	static
+../pwm/Pwm.c:114:6:Motor_55_duty	8	static
+../pwm/Pwm.c:122:6:Motor_65_duty	8	static
+../pwm/Pwm.c:130:6:Motor_75_duty	8	static
+../pwm/Pwm.c:138:6:Motor_85_duty	8	static
+../pwm/Pwm.c:146:6:Motor_95_duty	8	static
