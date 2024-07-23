@@ -1,0 +1,3 @@
+../buttons/button.c:30:6:button_false_init	1
+../buttons/button.c:221:6:EXTI9_5_IRQHandler	5
+../buttons/button.c:284:6:EXTI15_10_IRQHandler	5

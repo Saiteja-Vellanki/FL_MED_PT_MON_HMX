@@ -10,7 +10,7 @@
  *
  *
  * Created on       : Mar 7, 2024
- * Updated on       : Mar 8, 2024
+ * Updated on       : Apr 9, 2024
  * File             : led.h
  *
  * STEM             : SaiTeja EMbeddedsySTEMs
@@ -22,6 +22,7 @@
 
 #include "error.h"
 #include<stdint.h>
+#include "ioexpansion.h"
 
 
 typedef enum
@@ -32,11 +33,38 @@ typedef enum
 }led_state;
 
 
-
+void Ex_gpio_write(uint8_t pin, GPIO_PinState pinState);
 uint8_t led_states(led_state state);
 
+void Ex_gpio_init(void);
+
+void Tempset_35_led(void);
+void Tempset_40_led(void);
+void Tempset_43_led(void);
+
+void Fanset_low_led(void);
+void Fanset_mid_led(void);
+void Fanset_high_led(void);
 
 
+
+void Tempset_amb_led(void);
+void Standbyset_led(void);
+
+
+void TempReset_35_led(void);
+void TempReset_40_led(void);
+void TempReset_43_led(void);
+
+void FanReset_low_led(void);
+void FanReset_mid_led(void);
+void FanReset_high_led(void);
+
+
+
+void TempReset_amb_led(void);
+void Standbyset_led(void);
+void StandbyReset_led(void);
 
 
 

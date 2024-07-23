@@ -23,10 +23,37 @@
 
 
 #include "error.h"
+#include<stdint.h>
+
+#define false 0
+#define true  1
+
+typedef void Gpio_state(void);
+
+void Button_switches();
+typedef struct buttons
+{
+	Gpio_state *gpio_st;
+	uint8_t button_35 :1;
+	uint8_t button_40 :1;
+	uint8_t button_45 :1;
+	uint8_t button_f_low :1;
+	uint8_t button_f_mid :1;
+	uint8_t button_f_high :1;
+	uint8_t button_standby :1;
+	uint8_t button_Ambient :1;
+
+}button_press;
+
+void button_false_init();
 
 
+void temp_35(button_press *button_pres);
 
 
+void Set_35T_Button();
+void Set_40T_Button();
+void Set_43T_Button();
 
 
 
